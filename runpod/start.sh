@@ -21,7 +21,7 @@ fi
 
 # Login to Hugging Face (non-interactive)
 echo "Logging in to Hugging Face..."
-huggingface-cli login --token "$HF_TOKEN" --add-to-git-credential
+hf auth login --token $HF_TOKEN --add-to-git-credential
 
 # Optional: Login to W&B for experiment tracking
 if [ -n "${WANDB_API_KEY:-}" ]; then
