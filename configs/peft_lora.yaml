@@ -1,0 +1,58 @@
+# LoRA PEFT Configuration for LFM2-700M
+# Reference: https://github.com/Liquid4All/leap-finetune
+#
+# LoRA (Low-Rank Adaptation) enables efficient fine-tuning by injecting
+# trainable low-rank matrices into the model while keeping base weights frozen.
+
+# LoRA rank - controls the dimensionality of the low-rank matrices
+# Higher rank = more expressiveness but more parameters
+# Recommended range: 8-64 for models of this size
+r: 16
+
+# LoRA alpha - scaling factor for the low-rank adaptation
+# Typically set to 2*r or r for balanced learning
+lora_alpha: 32
+
+# Dropout probability for LoRA layers
+# Helps prevent overfitting
+lora_dropout: 0.05
+
+# Target modules - which layers to apply LoRA to
+# For LFM2, we target attention and MLP layers
+# Adjust based on model architecture inspection
+# Common patterns: q_proj, k_proj, v_proj, o_proj for attention
+#                  gate_proj, up_proj, down_proj for MLP
+target_modules:
+  - "q_proj"
+  - "k_proj"
+  - "v_proj"
+  - "o_proj"
+  - "gate_proj"
+  - "up_proj"
+  - "down_proj"
+
+# Alternative: use regex pattern (uncomment if needed)
+# target_modules_pattern: ".*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)$"
+
+# Bias training strategy
+# Options: "none", "all", "lora_only"
+bias: "none"
+
+# Task type for PEFT
+task_type: "CAUSAL_LM"
+
+# Whether to use RSLoRA (Rank-Stabilized LoRA)
+# Improves training stability for higher ranks
+use_rslora: false
+
+# Whether to use DoRA (Weight-Decomposed Low-Rank Adaptation)
+# Can improve performance but increases memory usage slightly
+use_dora: false
+
+# Modules to save in addition to LoRA adapters
+# Useful if you need to save specific layers fully
+modules_to_save: null
+
+# Init LoRA weights method
+# Options: "gaussian", "kaiming_uniform", "default"
+init_lora_weights: true

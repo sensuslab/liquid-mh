@@ -1,0 +1,112 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Environment variables
+.env
+.env.local
+
+# Outputs (large files)
+outputs/datasets/*.jsonl
+outputs/sft/*/
+outputs/logs/*.log
+outputs/eval/*.jsonl
+outputs/bundles/*.tar
+
+# Keep directory structure
+!outputs/datasets/.gitkeep
+!outputs/sft/.gitkeep
+!outputs/logs/.gitkeep
+!outputs/eval/.gitkeep
+!outputs/bundles/.gitkeep
+
+# Model downloads (cached)
+.cache/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+
+# Hugging Face cache
+.huggingface/
+transformers_cache/
+
+# Weights & Biases
+wandb/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Ray
+/tmp/ray/
+
+# Large data files
+*.tar
+*.tar.gz
+*.zip
+*.h5
+*.hdf5
+
+# Secrets
+*.pem
+*.key
+credentials.json
+token.json

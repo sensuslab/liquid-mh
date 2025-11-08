@@ -1,0 +1,181 @@
+# Supervised Fine-Tuning (SFT) Training Arguments
+# Reference: https://github.com/Liquid4All/leap-finetune
+#
+# These settings are tuned for single-GPU training on A100 40GB
+# Batch sizes are conservative and can be auto-scaled based on available VRAM
+
+# ================================================================
+# Training Duration
+# ================================================================
+
+# Number of training epochs
+# For mental health dataset, 3-5 epochs typically sufficient
+num_train_epochs: 3
+
+# Maximum training steps (overrides num_train_epochs if set)
+# Uncomment to use step-based training instead
+# max_steps: 1000
+
+# ================================================================
+# Batch Size & Gradient Accumulation
+# ================================================================
+
+# Batch size per GPU device
+# Conservative default for 40GB VRAM; increase for larger GPUs
+# Will be auto-tuned by scripts/train.sh based on available memory
+per_device_train_batch_size: 4
+
+# Batch size for evaluation
+per_device_eval_batch_size: 4
+
+# Gradient accumulation steps
+# Effective batch size = per_device_train_batch_size * gradient_accumulation_steps * num_gpus
+# Default effective batch size: 4 * 4 * 1 = 16
+gradient_accumulation_steps: 4
+
+# ================================================================
+# Learning Rate & Optimization
+# ================================================================
+
+# Learning rate for AdamW optimizer
+# LoRA typically uses higher LR than full fine-tuning
+learning_rate: 2.0e-4
+
+# Weight decay for regularization
+weight_decay: 0.01
+
+# Optimizer to use
+# Options: "adamw_torch", "adamw_8bit", "adamw_bnb_8bit", "adafactor"
+optim: "adamw_torch"
+
+# AdamW beta parameters
+adam_beta1: 0.9
+adam_beta2: 0.999
+adam_epsilon: 1.0e-8
+
+# Maximum gradient norm for clipping
+max_grad_norm: 1.0
+
+# ================================================================
+# Learning Rate Schedule
+# ================================================================
+
+# LR scheduler type
+# Options: "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup"
+lr_scheduler_type: "cosine"
+
+# Warmup ratio (fraction of total steps)
+# 3% warmup is common for stable training
+warmup_ratio: 0.03
+
+# Alternative: specify warmup steps directly
+# warmup_steps: 100
+
+# ================================================================
+# Precision & Performance
+# ================================================================
+
+# Use bfloat16 mixed precision (recommended for A100/H100)
+bf16: true
+
+# Use float16 mixed precision (use if bf16 not supported)
+# Set to false if using bf16
+fp16: false
+
+# Enable TF32 on Ampere GPUs for faster matmul
+tf32: true
+
+# Gradient checkpointing to save memory
+# Slightly slower but enables larger batch sizes
+gradient_checkpointing: true
+
+# ================================================================
+# Logging & Evaluation
+# ================================================================
+
+# Log every N steps
+logging_steps: 10
+
+# Logging strategy
+# Options: "steps", "epoch", "no"
+logging_strategy: "steps"
+
+# Evaluation strategy
+# Options: "steps", "epoch", "no"
+evaluation_strategy: "steps"
+
+# Evaluate every N steps
+eval_steps: 100
+
+# Save checkpoint every N steps
+save_steps: 200
+
+# Save strategy
+save_strategy: "steps"
+
+# Save total limit - keep only last N checkpoints
+save_total_limit: 3
+
+# Load best model at end of training
+load_best_model_at_end: true
+
+# Metric for best model selection
+metric_for_best_model: "eval_loss"
+
+# Whether lower is better for the metric
+greater_is_better: false
+
+# ================================================================
+# Reporting & Tracking
+# ================================================================
+
+# Report metrics to W&B, tensorboard, etc.
+# Options: "wandb", "tensorboard", "none", or list ["wandb", "tensorboard"]
+# Set to "none" if WANDB_API_KEY is not provided
+report_to: "wandb"
+
+# Run name for experiment tracking
+# Will be set by training script
+# run_name: "lfm2-700m-mental-health"
+
+# ================================================================
+# Data Processing
+# ================================================================
+
+# Maximum sequence length
+# LFM2-700M supports up to 32K, but 2K is sufficient for conversations
+max_seq_length: 2048
+
+# Whether to pack multiple samples into one sequence
+# Can improve efficiency but may affect learning dynamics
+# packing: false
+
+# Dataloader settings
+dataloader_num_workers: 4
+dataloader_pin_memory: true
+
+# Remove unused columns from dataset
+remove_unused_columns: true
+
+# ================================================================
+# Miscellaneous
+# ================================================================
+
+# Random seed for reproducibility
+seed: 42
+
+# Whether to use CUDA
+use_cpu: false
+
+# Disable tqdm progress bars in logs
+disable_tqdm: false
+
+# Resume from checkpoint path
+# Will be set by scripts/resume.sh if resuming
+# resume_from_checkpoint: null
+
+# Include tokens per second in logs
+include_tokens_per_second: true
+
+# Include number of input tokens in logs
+include_num_input_tokens_seen: true

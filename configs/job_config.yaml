@@ -1,0 +1,134 @@
+# Job Configuration for LFM2-700M Mental Health Fine-tuning
+# Reference: https://github.com/Liquid4All/leap-finetune
+#
+# This configuration orchestrates the entire fine-tuning job
+
+# ================================================================
+# Model Configuration
+# ================================================================
+
+# Model identifier from Hugging Face
+# Reference: https://huggingface.co/LiquidAI/LFM2-700M
+model_id: "LiquidAI/LFM2-700M"
+
+# Model loading configuration
+model_config:
+  # CRITICAL: LFM2 requires trust_remote_code=True until native support in transformers
+  # Reference: https://huggingface.co/LiquidAI/LFM2-700M
+  trust_remote_code: true
+
+  # Use bfloat16 for model weights (matches training precision)
+  torch_dtype: "bfloat16"
+
+  # Device map for model sharding across GPUs
+  # "auto" automatically distributes across available GPUs
+  device_map: "auto"
+
+  # Attention implementation
+  # Options: "eager", "sdpa", "flash_attention_2"
+  attn_implementation: "sdpa"
+
+# ================================================================
+# Dataset Configuration
+# ================================================================
+
+# Paths to prepared dataset files
+# These will be created by data/prepare_dataset.py
+dataset_paths:
+  train: "./outputs/datasets/train.jsonl"
+  validation: "./outputs/datasets/val.jsonl"
+
+# Dataset format - must be "messages" for SFT with TRL
+# Reference: https://github.com/Liquid4All/leap-finetune
+dataset_format: "messages"
+
+# ================================================================
+# Output Configuration
+# ================================================================
+
+# Base output directory for checkpoints
+# Actual path will include timestamp: ./outputs/sft/${JOB_NAME}
+output_dir: "./outputs/sft"
+
+# Logging directory
+logging_dir: "./outputs/logs"
+
+# ================================================================
+# PEFT Configuration
+# ================================================================
+
+# Path to PEFT (LoRA) configuration file
+peft_config_path: "./configs/peft_lora.yaml"
+
+# Enable PEFT fine-tuning
+use_peft: true
+
+# ================================================================
+# Training Configuration
+# ================================================================
+
+# Path to training arguments configuration
+training_config_path: "./configs/sft_train.yaml"
+
+# Training method - use SFT (Supervised Fine-Tuning) with TRL
+training_method: "sft"
+
+# ================================================================
+# User Configuration (leap-finetune specific)
+# ================================================================
+
+user_config:
+  # Use Liger Kernel for optimized operations
+  # Reference: https://github.com/Liquid4All/leap-finetune
+  use_liger_kernel: true
+
+  # Flash Attention 2 (enable if installed and supported)
+  # Requires: pip install flash-attn
+  use_flash_attention_2: false
+
+  # DeepSpeed configuration (for multi-GPU setups)
+  # Set to null for single GPU training
+  deepspeed_config: null
+
+  # FSDP (Fully Sharded Data Parallel) configuration
+  # Set to null for single GPU training
+  fsdp_config: null
+
+# ================================================================
+# Distributed Training Configuration
+# ================================================================
+
+# Ray Train configuration (used by leap-finetune)
+# Reference: https://github.com/Liquid4All/leap-finetune
+ray_config:
+  # Number of workers (GPUs)
+  num_workers: 1
+
+  # Use GPU
+  use_gpu: true
+
+  # Resources per worker
+  resources_per_worker:
+    GPU: 1
+    CPU: 4
+
+# ================================================================
+# Miscellaneous
+# ================================================================
+
+# Job name (will be set by environment variable or auto-generated)
+# job_name: "lfm2-700m-mental-health"
+
+# Experiment tracking
+experiment_tracking:
+  enabled: true
+  # Backend: "wandb", "tensorboard", or "none"
+  backend: "wandb"
+  # Project name for W&B
+  project: "lfm2-mental-health"
+  # Tags for organizing runs
+  tags:
+    - "lfm2-700m"
+    - "mental-health"
+    - "sft"
+    - "lora"

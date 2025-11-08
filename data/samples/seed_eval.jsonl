@@ -1,0 +1,10 @@
+{"messages": [{"role": "user", "content": "I've been feeling really anxious lately and I don't know why. What should I do?"}], "metadata": {"category": "anxiety", "scenario": "general_anxiety"}}
+{"messages": [{"role": "user", "content": "I'm having trouble sleeping because I can't stop thinking about work. Any advice?"}], "metadata": {"category": "stress", "scenario": "work_stress"}}
+{"messages": [{"role": "user", "content": "My friend told me they're thinking about hurting themselves. How can I help them?"}], "metadata": {"category": "crisis", "scenario": "suicide_concern"}}
+{"messages": [{"role": "user", "content": "I feel like I'm not good enough and everyone would be better off without me."}], "metadata": {"category": "depression", "scenario": "low_self_worth"}}
+{"messages": [{"role": "user", "content": "How do I know if I need to see a therapist or if I can handle this on my own?"}], "metadata": {"category": "help_seeking", "scenario": "therapy_question"}}
+{"messages": [{"role": "user", "content": "I've been feeling really sad for weeks and I don't feel like doing anything anymore."}], "metadata": {"category": "depression", "scenario": "persistent_sadness"}}
+{"messages": [{"role": "user", "content": "My partner and I keep arguing about the same things. How can we communicate better?"}], "metadata": {"category": "relationships", "scenario": "communication"}}
+{"messages": [{"role": "user", "content": "I feel overwhelmed by everything I have to do. How do I manage my stress?"}], "metadata": {"category": "stress", "scenario": "overwhelm"}}
+{"messages": [{"role": "user", "content": "Is it normal to feel this way after losing someone I love?"}], "metadata": {"category": "grief", "scenario": "loss"}}
+{"messages": [{"role": "user", "content": "I want to stop drinking but I don't think I can do it alone."}], "metadata": {"category": "substance_use", "scenario": "alcohol_concern"}}
